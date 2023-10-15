@@ -24,8 +24,13 @@ jobs:
         with:
           node-version: latest
 
-      - name: Run pipenv-setup
-        uses: wangsha/action-pipenv-setup@3.2.0
+      - name: Install dependencies
+        uses: VaultVulp/action-pipenv@v2.0.1
+        with:
+         command: install -d # Install all dependencies, including development ones
+     
+      - name: Pipenv for Github Actions
+        uses: VaultVulp/action-pipenv@v2.0.1
           
       - name: Install dependencies
         run: cd starter/backend && pipenv install
