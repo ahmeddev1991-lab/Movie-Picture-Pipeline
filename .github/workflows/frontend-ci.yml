@@ -1,0 +1,44 @@
+name: frontend-ci
+
+on:
+  # Manual trigger using the workflow_dispatch event
+  workflow_dispatch:
+  # Automatic trigger on pull request events targeting the main branch
+  pull_request:
+    branches:
+      - main
+
+# Jobs defined in the workflow
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+
+      # Check out the code from the repository.
+      - uses: actions/checkout@v3
+
+      - name: Set up node using nvm
+        uses: dcodeIO/setup-node-nvm@v5
+
+      # Set up a Node.js environment using the specified node version.
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # Use correct NodeJS version.
+      - run: cd starter/frontend && nvm use        
+
+      # Install the dependencies.
+      - run: cd starter/frontend && npm ci
+
+      # Run the tests.
+      - run: cd starter/frontend && npm test
+
+      # Run the linter.
+      - run: cd starter/frontend && npm run lint
