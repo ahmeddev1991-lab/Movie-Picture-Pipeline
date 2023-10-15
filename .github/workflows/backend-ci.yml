@@ -1,0 +1,38 @@
+name: backend-ci
+
+# Triggers for the workflow
+on:
+  # Manual trigger using the workflow_dispatch event
+  workflow_dispatch:
+  
+  # Automatic trigger on push events to the main branch
+  push:
+    branches:
+      - main
+
+# Jobs defined in the workflow
+jobs:
+  pipenv-setup:
+    runs-on: ubuntu-latest
+    name: Test pipenv-setup
+    steps:
+      - name: Run pipenv-setup
+        uses: wangsha/action-pipenv-setup@3.2.0
+
+      - name: Install dependencies
+        run: cd starter/backend && pipenv install
+
+      - name: Run the tests
+        run: cd starter/backend && pipenv run test
+
+      - name: Run lint
+        run: cd starter/backend && pipenv run lint
+
+      - name: Build the image
+        run: cd starter/backend && docker build --tag mp-backend:latest .
+
+      - name: Run the image
+        run: cd starter/backend && docker run -p 5000:5000 --name mp-backend -d mp-backend
+
+      - name: Check the running application
+        run: cd starter/backend && curl http://localhost:5000/movies
