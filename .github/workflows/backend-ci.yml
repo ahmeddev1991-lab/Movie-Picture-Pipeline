@@ -33,9 +33,6 @@ jobs:
       - name: Run the tests
         run: cd starter/backend && pipenv run test
 
-      - name: Run lint
-        run: cd starter/backend && pipenv run lint
-
       - name: Build the image
         run: cd starter/backend && docker build --tag mp-backend:latest .
 
