@@ -42,10 +42,4 @@ jobs:
         run: cd setup/terraform && terraform apply -auto-approve
 
       - name: Terraform output
-        run:  cd setup/terraform && terraform output
-        
-      - name: user perm
-        run:  cd setup && chmod +x+x+x init.sh 
-
-      - name: user conf
-        run:  cd setup && ./init.sh        
+        run:  cd setup/terraform && terraform output       
